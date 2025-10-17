@@ -1,8 +1,14 @@
 FROM ollama/ollama:latest
 
-EXPOSE 11434
+# Définir les variables d'environnement
 ENV OLLAMA_HOST="0.0.0.0:11434"
 
-RUN ollama pull gemma3:270m
+# Copier le script d'entrée dans le conteneur
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-CMD ["ollama", "serve"]
+# Exposer le port
+EXPOSE 11434
+
+# Définir le script d'entrée comme point d'entrée
+ENTRYPOINT ["/entrypoint.sh"]
